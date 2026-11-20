@@ -1,117 +1,146 @@
-import { useState } from 'react'
+
+import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import initialTasks from "./data/initialTasks";
+import useLocalStorage from "./hooks/useLocalStorage";
+
+import BoardPage from "./pages/BoardPage";
+import TaskDetailPage from "./pages/TaskDetailPage";
+import ArchivePage from "./pages/ArchivePage";
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useLocalStorage(
+    "taskflow-tasks",
+    initialTasks
+  );
+
+  // Simulated loading state
+  const [isLoading, setIsLoading] = useState(
+    () => localStorage.getItem("taskflow-tasks") === null
+  );
+
+  // Simulate a 400ms initial loading period
+  useEffect(() => {
+    if (!isLoading) return;
+
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 400);
+
+    return () => clearTimeout(timeoutId);
+  }, [isLoading]);
+
+  // Add a new task
+  const addTask = (newTask) => {
+    setTasks((previousTasks) => [...previousTasks, newTask]);
+  };
+
+  // Delete a task
+  const deleteTask = (taskId) => {
+    setTasks((previousTasks) =>
+      previousTasks.filter((task) => task.id !== taskId)
+    );
+  };
+
+  // Change task status
+  const moveTask = (taskId, newStatus) => {
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === taskId
+          ? { ...task, status: newStatus }
+          : task
+      )
+    );
+  };
+
+  // Update task information
+  const updateTask = (taskId, updatedData) => {
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === taskId
+          ? { ...task, ...updatedData }
+          : task
+      )
+    );
+  };
+
+  // Archive a task
+  const archiveTask = (taskId) => {
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === taskId
+          ? { ...task, archived: true }
+          : task
+      )
+    );
+  };
+
+  // Restore an archived task
+  const restoreTask = (taskId) => {
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === taskId
+          ? { ...task, archived: false }
+          : task
+      )
+    );
+  };
+
+  // Display only active tasks on the board
+  const activeTasks = tasks.filter((task) => !task.archived);
+
+  // Loading screen
+  if (isLoading) {
+    return (
+      <main className="loading-screen">
+        <h1>TaskFlow</h1>
+        <p>Preparing your workspace...</p>
+      </main>
+    );
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <Routes>
+      {/* Main Kanban Board */}
+      <Route
+        path="/"
+        element={
+          <BoardPage
+            tasks={activeTasks}
+            onDelete={deleteTask}
+            onAdd={addTask}
+            onMove={moveTask}
+            onArchive={archiveTask}
+          />
+        }
+      />
 
-      <div className="ticks"></div>
+      {/* Task Details */}
+      <Route
+        path="/task/:id"
+        element={
+          <TaskDetailPage
+            tasks={activeTasks}
+            onUpdate={updateTask}
+            onDelete={deleteTask}
+            onArchive={archiveTask}
+          />
+        }
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Archived Tasks */}
+      <Route
+        path="/archive"
+        element={
+          <ArchivePage
+            tasks={tasks}
+            onRestore={restoreTask}
+          />
+        }
+      />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
