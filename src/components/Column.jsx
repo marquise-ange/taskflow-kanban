@@ -1,6 +1,6 @@
 import TaskCard from "./TaskCard";
 
-function Column({ title, tasks, onDeletee }) {
+function Column({ title, tasks, onDelete }) {
     return (
         <section className="kanban-column">
             <div className="column-header">
