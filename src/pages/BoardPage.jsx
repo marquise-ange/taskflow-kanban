@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import Column from "../components/Column";
+import AddTaskForm from "../components/AddTaskForm";
 import useTaskFilter from "../hooks/useTaskFilter";
 
-function BoardPage({ tasks, onDelete }) {
+function BoardPage({ tasks, onDelete, onAdd, onMove }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [priorityFilter, setPriorityFilter] = useState("All");
 
@@ -41,7 +42,8 @@ function BoardPage({ tasks, onDelete }) {
                 </nav>
             </header>
 
-            {/* Search and Priority Filter */}
+            <AddTaskForm onAdd={onAdd} />
+
             <section className="task-filters">
                 <div className="search-group">
                     <label htmlFor="task-search">Search Tasks</label>
@@ -76,18 +78,21 @@ function BoardPage({ tasks, onDelete }) {
                     title="To Do"
                     tasks={todoTasks}
                     onDelete={onDelete}
+                    onMove={onMove}
                 />
 
                 <Column
                     title="In Progress"
                     tasks={inProgressTasks}
                     onDelete={onDelete}
+                    onMove={onMove}
                 />
 
                 <Column
                     title="Done"
                     tasks={doneTasks}
                     onDelete={onDelete}
+                    onMove={onMove}
                 />
             </div>
         </main>

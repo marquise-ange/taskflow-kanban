@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 
-function TaskCard({ task, onDelete }) {
+function TaskCard({ task, onDelete, onMove }) {
   return (
     <article className="task-card">
       <div className="task-card-header">
@@ -36,6 +36,22 @@ function TaskCard({ task, onDelete }) {
             </button>
           )}
         </div>
+      </div>
+
+      <div className="task-status-control">
+        <label htmlFor={`status-${task.id}`}>
+          Change Status
+        </label>
+
+        <select
+          id={`status-${task.id}`}
+          value={task.status}
+          onChange={(event) => onMove(task.id, event.target.value)}
+        >
+          <option value="todo">To Do</option>
+          <option value="in-progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
       </div>
     </article>
   );
