@@ -1,9 +1,6 @@
 
 import { useState } from "react";
-import {
-  Routes,
-  Route,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import initialTasks from "./data/initialTasks";
 import BoardPage from "./pages/BoardPage";
@@ -13,24 +10,16 @@ import ArchivePage from "./pages/ArchivePage";
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
 
-  // Add a task
   const addTask = (newTask) => {
-    setTasks((previousTasks) => [
-      ...previousTasks,
-      newTask,
-    ]);
+    setTasks((previousTasks) => [...previousTasks, newTask]);
   };
 
-  // Delete a task
   const deleteTask = (taskId) => {
     setTasks((previousTasks) =>
-      previousTasks.filter(
-        (task) => task.id !== taskId
-      )
+      previousTasks.filter((task) => task.id !== taskId)
     );
   };
 
-  // Move a task
   const moveTask = (taskId, newStatus) => {
     setTasks((previousTasks) =>
       previousTasks.map((task) =>
@@ -41,7 +30,6 @@ function App() {
     );
   };
 
-  // Update a task
   const updateTask = (taskId, updatedData) => {
     setTasks((previousTasks) =>
       previousTasks.map((task) =>
@@ -52,15 +40,39 @@ function App() {
     );
   };
 
+  const archiveTask = (taskId) => {
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === taskId
+          ? { ...task, archived: true }
+          : task
+      )
+    );
+  };
+
+  const restoreTask = (taskId) => {
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === taskId
+          ? { ...task, archived: false }
+          : task
+      )
+    );
+  };
+
+  const activeTasks = tasks.filter((task) => !task.archived);
+
   return (
     <Routes>
-
       <Route
         path="/"
         element={
           <BoardPage
-            tasks={tasks}
+            tasks={activeTasks}
             onDelete={deleteTask}
+            onAdd={addTask}
+            onMove={moveTask}
+            onArchive={archiveTask}
           />
         }
       />
@@ -69,7 +81,7 @@ function App() {
         path="/task/:id"
         element={
           <TaskDetailPage
-            tasks={tasks}
+            tasks={activeTasks}
             onUpdate={updateTask}
             onDelete={deleteTask}
           />
@@ -81,10 +93,10 @@ function App() {
         element={
           <ArchivePage
             tasks={tasks}
+            onRestore={restoreTask}
           />
         }
       />
-
     </Routes>
   );
 }
