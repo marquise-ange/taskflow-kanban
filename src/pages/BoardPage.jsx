@@ -8,7 +8,7 @@ function BoardPage({ tasks, onDelete }) {
     const inProgressTasks = tasks.filter(
         (task) => task.status === "inprogress"
     );
-    const doneTasks = task.filter(
+    const doneTasks = tasks.filter(
         (task) => task.status === "done"
     );
     return (
