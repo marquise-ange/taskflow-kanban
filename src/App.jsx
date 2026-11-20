@@ -1,25 +1,49 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import initialTasks from "./data/initialTasks";
+import useLocalStorage from "./hooks/useLocalStorage";
+
 import BoardPage from "./pages/BoardPage";
 import TaskDetailPage from "./pages/TaskDetailPage";
 import ArchivePage from "./pages/ArchivePage";
 
 function App() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useLocalStorage(
+    "taskflow-tasks",
+    initialTasks
+  );
 
+  // Simulated loading state
+  const [isLoading, setIsLoading] = useState(
+    () => localStorage.getItem("taskflow-tasks") === null
+  );
+
+  // Simulate a 400ms initial loading period
+  useEffect(() => {
+    if (!isLoading) return;
+
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 400);
+
+    return () => clearTimeout(timeoutId);
+  }, [isLoading]);
+
+  // Add a new task
   const addTask = (newTask) => {
     setTasks((previousTasks) => [...previousTasks, newTask]);
   };
 
+  // Delete a task
   const deleteTask = (taskId) => {
     setTasks((previousTasks) =>
       previousTasks.filter((task) => task.id !== taskId)
     );
   };
 
+  // Change task status
   const moveTask = (taskId, newStatus) => {
     setTasks((previousTasks) =>
       previousTasks.map((task) =>
@@ -30,6 +54,7 @@ function App() {
     );
   };
 
+  // Update task information
   const updateTask = (taskId, updatedData) => {
     setTasks((previousTasks) =>
       previousTasks.map((task) =>
@@ -40,6 +65,7 @@ function App() {
     );
   };
 
+  // Archive a task
   const archiveTask = (taskId) => {
     setTasks((previousTasks) =>
       previousTasks.map((task) =>
@@ -50,6 +76,7 @@ function App() {
     );
   };
 
+  // Restore an archived task
   const restoreTask = (taskId) => {
     setTasks((previousTasks) =>
       previousTasks.map((task) =>
@@ -60,10 +87,22 @@ function App() {
     );
   };
 
+  // Display only active tasks on the board
   const activeTasks = tasks.filter((task) => !task.archived);
+
+  // Loading screen
+  if (isLoading) {
+    return (
+      <main className="loading-screen">
+        <h1>TaskFlow</h1>
+        <p>Preparing your workspace...</p>
+      </main>
+    );
+  }
 
   return (
     <Routes>
+      {/* Main Kanban Board */}
       <Route
         path="/"
         element={
@@ -77,6 +116,7 @@ function App() {
         }
       />
 
+      {/* Task Details */}
       <Route
         path="/task/:id"
         element={
@@ -89,6 +129,7 @@ function App() {
         }
       />
 
+      {/* Archived Tasks */}
       <Route
         path="/archive"
         element={
