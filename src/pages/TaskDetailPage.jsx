@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-function TaskDetailPage({ tasks, onUpdate, onDelete }) {
+function TaskDetailPage({ tasks, onUpdate, onDelete, onArchive }) {
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -53,6 +53,11 @@ function TaskDetailPage({ tasks, onUpdate, onDelete }) {
         }
     };
 
+    const handleArchive = () => {
+        onArchive(task.id);
+        navigate("/");
+    };
+
     return (
         <main className="task-detail-page">
             <Link to="/">← Back to Board</Link>
@@ -101,10 +106,16 @@ function TaskDetailPage({ tasks, onUpdate, onDelete }) {
                 <div className="form-actions">
                     <button type="submit">Save Changes</button>
 
-                    <button
-                        type="button"
-                        onClick={handleDelete}
-                    >
+                    {task.status === "done" && (
+                        <button
+                            type="button"
+                            onClick={handleArchive}
+                        >
+                            Archive Task
+                        </button>
+                    )}
+
+                    <button type="button" onClick={handleDelete}>
                         Delete Task
                     </button>
                 </div>

@@ -84,6 +84,7 @@ function App() {
             tasks={activeTasks}
             onUpdate={updateTask}
             onDelete={deleteTask}
+            onArchive={archiveTask}
           />
         }
       />
