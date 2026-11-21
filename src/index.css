@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 /* TaskFlow — Jira-inspired theme */
+
 @theme {
     --color-brand: #0C66E4;
     --color-brand-dark: #0747A6;

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import Column from "../components/Column";
 import AddTaskForm from "../components/AddTaskForm";
+import FilterBar from "../components/FilterBar";
 import useTaskFilter from "../hooks/useTaskFilter";
 
 function BoardPage({ tasks, onDelete, onAdd, onMove }) {
@@ -95,42 +96,13 @@ function BoardPage({ tasks, onDelete, onAdd, onMove }) {
                 )}
 
                 {/* Search and Filter Toolbar */}
-                <section className="mb-6 flex flex-col gap-3 rounded-lg border border-[#DFE1E6] bg-white p-3 sm:flex-row sm:items-center">
-                    <div className="min-w-0 flex-1">
-                        <label htmlFor="task-search" className="sr-only">
-                            Search tasks
-                        </label>
-
-                        <input
-                            id="task-search"
-                            type="search"
-                            placeholder="Search tasks by title or description..."
-                            value={searchQuery}
-                            onChange={(event) => setSearchQuery(event.target.value)}
-                            className="w-full rounded border border-[#DFE1E6] bg-white px-3 py-2 text-sm text-[#172B4D] outline-none placeholder:text-[#8590A2] focus:border-[#0C66E4] focus:ring-2 focus:ring-[#0C66E4]/10"
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-2 sm:w-56">
-                        <label
-                            htmlFor="priority-filter"
-                            className="shrink-0 text-xs font-semibold text-[#626F86]"
-                        >
-                            Priority:
-                        </label>
-
-                        <select
-                            id="priority-filter"
-                            value={priorityFilter}
-                            onChange={(event) => setPriorityFilter(event.target.value)}
-                            className="min-w-0 rounded border border-[#DFE1E6] bg-white px-3 py-2 text-sm text-[#172B4D] outline-none focus:border-[#0C66E4] focus:ring-2 focus:ring-[#0C66E4]/10"
-                        >
-                            <option value="All">All priorities</option>
-                            <option value="High">High</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </div>
+                <section className="mb-6">
+                    <FilterBar
+                        searchQuery={searchQuery}
+                        onSearchChange={setSearchQuery}
+                        priorityFilter={priorityFilter}
+                        onPriorityChange={setPriorityFilter}
+                    />
                 </section>
 
                 {/* Board Heading */}

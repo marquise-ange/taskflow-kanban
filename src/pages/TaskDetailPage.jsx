@@ -11,12 +11,14 @@ function TaskDetailPage({ tasks, onUpdate, onDelete, onArchive }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("todo");
+    const [priority, setPriority] = useState("Medium");
 
     useEffect(() => {
         if (task) {
             setTitle(task.title);
             setDescription(task.description);
             setStatus(task.status);
+            setPriority(task.priority || "Medium");
         }
     }, [task]);
 
@@ -56,6 +58,7 @@ function TaskDetailPage({ tasks, onUpdate, onDelete, onArchive }) {
             title: title.trim(),
             description: description.trim(),
             status,
+            priority,
         });
 
         alert("Task updated successfully!");
@@ -91,6 +94,12 @@ function TaskDetailPage({ tasks, onUpdate, onDelete, onArchive }) {
         done: "Done",
     };
 
+    const priorityStyles = {
+        High: "bg-[#FFE2E0] text-[#AE2E24]",
+        Medium: "bg-[#FFF3C9] text-[#974F0C]",
+        Low: "bg-[#DCFCE7] text-[#216E4E]",
+    };
+
     return (
         <main className="min-h-screen bg-[#F4F5F7] px-4 py-6 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl">
@@ -121,13 +130,23 @@ function TaskDetailPage({ tasks, onUpdate, onDelete, onArchive }) {
                             </p>
                         </div>
 
-                        <span
-                            className={`rounded-sm px-3 py-1.5 text-xs font-semibold ${statusStyles[task.status] ||
-                                "bg-[#F1F2F4] text-[#44546F]"
-                                }`}
-                        >
-                            {statusLabels[task.status] || task.status}
-                        </span>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span
+                                className={`rounded-sm px-3 py-1.5 text-xs font-semibold ${statusStyles[task.status] ||
+                                    "bg-[#F1F2F4] text-[#44546F]"
+                                    }`}
+                            >
+                                {statusLabels[task.status] || task.status}
+                            </span>
+
+                            <span
+                                className={`rounded-sm px-3 py-1.5 text-xs font-semibold ${priorityStyles[task.priority] ||
+                                    "bg-[#F1F2F4] text-[#44546F]"
+                                    }`}
+                            >
+                                {task.priority || "Medium"} Priority
+                            </span>
+                        </div>
                     </div>
                 </header>
 
@@ -206,6 +225,27 @@ function TaskDetailPage({ tasks, onUpdate, onDelete, onArchive }) {
                                 <option value="todo">To Do</option>
                                 <option value="in-progress">In Progress</option>
                                 <option value="done">Done</option>
+                            </select>
+                        </div>
+
+                        {/* Priority */}
+                        <div>
+                            <label
+                                htmlFor="priority"
+                                className="mb-2 block text-sm font-semibold text-[#172B4D]"
+                            >
+                                Task Priority
+                            </label>
+
+                            <select
+                                id="priority"
+                                value={priority}
+                                onChange={(event) => setPriority(event.target.value)}
+                                className="w-full rounded-md border border-[#DFE1E6] bg-white px-3 py-2.5 text-sm text-[#172B4D] outline-none transition hover:border-[#B3B9C4] focus:border-[#0C66E4] focus:ring-2 focus:ring-[#0C66E4]/10 sm:max-w-xs"
+                            >
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
                             </select>
                         </div>
                     </div>
