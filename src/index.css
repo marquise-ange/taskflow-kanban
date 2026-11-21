@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
-/* TaskFlow Theme: White + Deep Navy */
+/* TaskFlow — Jira-inspired theme */
+
 @theme {
-    --color-brand: #172B4D;
-    --color-brand-dark: #172B4D;
-    --color-brand-light: #FFFFFF;
+    --color-brand: #0C66E4;
+    --color-brand-dark: #0747A6;
+    --color-brand-light: #DEEBFF;
 
     --color-surface: #FFFFFF;
     --color-page: #FFFFFF;
+    --color-column: #F4F5F7;
 
     --color-heading: #172B4D;
-    --color-muted: #172B4D;
-    --color-border: #172B4D;
+    --color-muted: #44546F;
+    --color-border: #DFE1E6;
+
+    --color-success: #22A06B;
+    --color-purple: #8270DB;
+    --color-warning: #F5CD47;
 }
 
 /* Global Reset */
@@ -49,8 +55,8 @@ input,
 textarea,
 select {
     width: 100%;
-    border: 1px solid rgba(23, 43, 77, 0.18);
-    border-radius: 10px;
+    border: 1px solid #DFE1E6;
+    border-radius: 4px;
     background-color: #FFFFFF;
     color: #172B4D;
     outline: none;
@@ -60,13 +66,13 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #172B4D;
-    box-shadow: 0 0 0 3px rgba(23, 43, 77, 0.08);
+    border-color: #0C66E4;
+    box-shadow: 0 0 0 2px rgba(12, 102, 228, 0.15);
 }
 
 input::placeholder,
 textarea::placeholder {
-    color: rgba(23, 43, 77, 0.5);
+    color: #8590A2;
 }
 
 /* Links */

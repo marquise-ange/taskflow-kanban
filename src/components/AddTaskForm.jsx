@@ -27,17 +27,25 @@ function AddTaskForm({ onAdd }) {
     };
 
     return (
-        <section className="overflow-hidden rounded-2xl border border-[#172B4D]/15 bg-white shadow-[0_6px_24px_rgba(23,43,77,0.06)]">
+        <section className="overflow-hidden rounded-lg border border-[#DFE1E6] bg-white shadow-sm">
 
-            {/* Navy Header */}
-            <div className="bg-[#172B4D] px-5 py-5 sm:px-7">
-                <h2 className="text-xl font-bold tracking-tight text-white">
-                    Create a New Task
-                </h2>
+            {/* Form Header */}
+            <div className="border-b border-[#DFE1E6] px-5 py-5 sm:px-7">
+                <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#DEEBFF] text-xl font-semibold text-[#0C66E4]">
+                        +
+                    </div>
 
-                <p className="mt-1 text-sm text-white/75">
-                    Add a task to your board and keep your work organized.
-                </p>
+                    <div>
+                        <h2 className="text-base font-bold text-[#172B4D]">
+                            Create a New Task
+                        </h2>
+
+                        <p className="mt-1 text-xs text-[#626F86]">
+                            Add a task to your board and keep your work organized.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             {/* Form Body */}
@@ -52,6 +60,7 @@ function AddTaskForm({ onAdd }) {
                             className="mb-2 block text-sm font-semibold text-[#172B4D]"
                         >
                             Task Title
+                            <span className="ml-1 text-[#AE2E24]">*</span>
                         </label>
 
                         <input
@@ -61,7 +70,7 @@ function AddTaskForm({ onAdd }) {
                             value={title}
                             onChange={(event) => setTitle(event.target.value)}
                             required
-                            className="w-full min-w-0 rounded-xl border border-[#172B4D]/20 bg-white px-4 py-3 text-sm text-[#172B4D] outline-none transition placeholder:text-[#172B4D]/45 hover:border-[#172B4D]/40 focus:border-[#172B4D] focus:ring-2 focus:ring-[#172B4D]/10"
+                            className="w-full min-w-0 rounded-md border border-[#DFE1E6] bg-white px-3 py-2.5 text-sm text-[#172B4D] outline-none transition placeholder:text-[#8590A2] hover:border-[#B3B9C4] focus:border-[#0C66E4] focus:ring-2 focus:ring-[#0C66E4]/10"
                         />
                     </div>
 
@@ -72,6 +81,7 @@ function AddTaskForm({ onAdd }) {
                             className="mb-2 block text-sm font-semibold text-[#172B4D]"
                         >
                             Description
+                            <span className="ml-1 text-[#AE2E24]">*</span>
                         </label>
 
                         <textarea
@@ -81,13 +91,13 @@ function AddTaskForm({ onAdd }) {
                             onChange={(event) => setDescription(event.target.value)}
                             rows={3}
                             required
-                            className="w-full min-w-0 resize-y rounded-xl border border-[#172B4D]/20 bg-white px-4 py-3 text-sm text-[#172B4D] outline-none transition placeholder:text-[#172B4D]/45 hover:border-[#172B4D]/40 focus:border-[#172B4D] focus:ring-2 focus:ring-[#172B4D]/10"
+                            className="w-full min-w-0 resize-y rounded-md border border-[#DFE1E6] bg-white px-3 py-2.5 text-sm leading-5 text-[#172B4D] outline-none transition placeholder:text-[#8590A2] hover:border-[#B3B9C4] focus:border-[#0C66E4] focus:ring-2 focus:ring-[#0C66E4]/10"
                         />
                     </div>
                 </div>
 
                 {/* Form Footer */}
-                <div className="flex flex-col gap-4 border-t border-[#172B4D]/10 pt-5 sm:flex-row sm:items-end sm:justify-between">
+                <div className="flex flex-col gap-4 border-t border-[#DFE1E6] pt-5 sm:flex-row sm:items-end sm:justify-between">
 
                     {/* Priority */}
                     <div className="w-full sm:max-w-xs">
@@ -102,7 +112,7 @@ function AddTaskForm({ onAdd }) {
                             id="new-task-priority"
                             value={priority}
                             onChange={(event) => setPriority(event.target.value)}
-                            className="w-full rounded-xl border border-[#172B4D]/20 bg-white px-4 py-3 text-sm text-[#172B4D] outline-none transition hover:border-[#172B4D]/40 focus:border-[#172B4D] focus:ring-2 focus:ring-[#172B4D]/10"
+                            className="w-full rounded-md border border-[#DFE1E6] bg-white px-3 py-2.5 text-sm text-[#172B4D] outline-none transition hover:border-[#B3B9C4] focus:border-[#0C66E4] focus:ring-2 focus:ring-[#0C66E4]/10"
                         >
                             <option value="High">High</option>
                             <option value="Medium">Medium</option>
@@ -113,9 +123,10 @@ function AddTaskForm({ onAdd }) {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className="w-full rounded-xl bg-[#172B4D] px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#243D64] focus:outline-none focus:ring-2 focus:ring-[#172B4D]/30 focus:ring-offset-2 sm:w-auto"
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#0C66E4] px-7 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0747A6] focus:outline-none focus:ring-2 focus:ring-[#0C66E4]/30 focus:ring-offset-2 sm:w-auto"
                     >
-                        + Add Task
+                        <span className="text-lg leading-none">+</span>
+                        Add Task
                     </button>
                 </div>
             </form>

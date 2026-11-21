@@ -2,26 +2,35 @@
 import TaskCard from "./TaskCard";
 
 function Column({ title, tasks, onDelete, onMove }) {
+    const statusColors = {
+        "To Do": "bg-[#44546F]",
+        "In Progress": "bg-[#0C66E4]",
+        "Done": "bg-[#22A06B]",
+    };
+
     return (
-        <section className="kanban-column min-w-0 overflow-hidden rounded-2xl border border-[#172B4D]/15 bg-white shadow-[0_6px_24px_rgba(23,43,77,0.05)]">
+        <section className="kanban-column min-w-0 rounded-lg bg-[#F4F5F7] p-3">
 
-            {/* Navy Column Header */}
-            <div className="flex items-center justify-between gap-3 bg-[#172B4D] px-4 py-4 sm:px-5">
-                <div className="flex min-w-0 items-center gap-3">
-                    <span className="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-white/80" />
+            {/* Column Header */}
+            <div className="mb-3 flex items-center justify-between gap-3 px-1 py-2">
+                <div className="flex min-w-0 items-center gap-2">
+                    <span
+                        className={`h-2.5 w-2.5 shrink-0 rounded-full ${statusColors[title] || "bg-[#44546F]"
+                            }`}
+                    />
 
-                    <h2 className="truncate text-base font-bold text-white">
+                    <h2 className="truncate text-sm font-semibold text-[#172B4D]">
                         {title}
                     </h2>
                 </div>
 
-                <span className="flex h-8 min-w-8 shrink-0 items-center justify-center rounded-lg border border-white/25 bg-white/10 px-2 text-sm font-semibold text-white">
+                <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#DFE1E6] px-2 text-xs font-semibold text-[#44546F]">
                     {tasks.length}
                 </span>
             </div>
 
-            {/* White Task List */}
-            <div className="column-tasks flex min-h-48 flex-col gap-4 bg-white p-4 sm:p-5">
+            {/* Task List */}
+            <div className="column-tasks flex min-h-48 flex-col gap-3">
                 {tasks.length > 0 ? (
                     tasks.map((task) => (
                         <TaskCard
@@ -32,17 +41,13 @@ function Column({ title, tasks, onDelete, onMove }) {
                         />
                     ))
                 ) : (
-                    <div className="empty-message flex min-h-36 flex-col items-center justify-center rounded-xl border border-dashed border-[#172B4D]/20 bg-white px-4 text-center">
-                        <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-[#172B4D]/15">
-                            <span className="h-2 w-2 rounded-full bg-[#172B4D]" />
-                        </span>
-
-                        <p className="text-sm font-semibold text-[#172B4D]">
+                    <div className="flex min-h-32 flex-col items-center justify-center rounded-md border border-dashed border-[#C1C7D0] bg-white/60 px-4 text-center">
+                        <p className="text-sm font-medium text-[#44546F]">
                             No tasks yet
                         </p>
 
-                        <p className="mt-1 text-xs text-[#172B4D]/60">
-                            Tasks added to this status will appear here.
+                        <p className="mt-1 text-xs text-[#8590A2]">
+                            Tasks will appear here.
                         </p>
                     </div>
                 )}
