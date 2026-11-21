@@ -8,6 +8,7 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import BoardPage from "./pages/BoardPage";
 import TaskDetailPage from "./pages/TaskDetailPage";
 import ArchivePage from "./pages/ArchivePage";
+import Footer from "./components/Footer";
 
 function App() {
   const [tasks, setTasks] = useLocalStorage(
@@ -101,45 +102,51 @@ function App() {
   }
 
   return (
-    <Routes>
-      {/* Main Kanban Board */}
-      <Route
-        path="/"
-        element={
-          <BoardPage
-            tasks={activeTasks}
-            onDelete={deleteTask}
-            onAdd={addTask}
-            onMove={moveTask}
-            onArchive={archiveTask}
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-1">
+        <Routes>
+          {/* Main Kanban Board */}
+          <Route
+            path="/"
+            element={
+              <BoardPage
+                tasks={activeTasks}
+                onDelete={deleteTask}
+                onAdd={addTask}
+                onMove={moveTask}
+                onArchive={archiveTask}
+              />
+            }
           />
-        }
-      />
 
-      {/* Task Details */}
-      <Route
-        path="/task/:id"
-        element={
-          <TaskDetailPage
-            tasks={activeTasks}
-            onUpdate={updateTask}
-            onDelete={deleteTask}
-            onArchive={archiveTask}
+          {/* Task Details */}
+          <Route
+            path="/task/:id"
+            element={
+              <TaskDetailPage
+                tasks={activeTasks}
+                onUpdate={updateTask}
+                onDelete={deleteTask}
+                onArchive={archiveTask}
+              />
+            }
           />
-        }
-      />
 
-      {/* Archived Tasks */}
-      <Route
-        path="/archive"
-        element={
-          <ArchivePage
-            tasks={tasks}
-            onRestore={restoreTask}
+          {/* Archived Tasks */}
+          <Route
+            path="/archive"
+            element={
+              <ArchivePage
+                tasks={tasks}
+                onRestore={restoreTask}
+              />
+            }
           />
-        }
-      />
-    </Routes>
+        </Routes>
+      </main>
+
+      <Footer />
+    </div>
   );
 }
 
