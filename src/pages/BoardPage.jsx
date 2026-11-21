@@ -31,8 +31,8 @@ function BoardPage({ tasks, onDelete, onAdd, onMove }) {
     );
 
     return (
-        <main className="board-page min-h-screen bg-[#F4F5F7] px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-[1600px]">
+        <main className="board-page min-h-screen w-full min-w-0 bg-[#F4F5F7] px-2 py-6 sm:px-6 lg:px-8">
+            <div className="mx-auto w-full min-w-0 max-w-[1600px]">
 
                 {/* Workspace Header */}
                 <header className="mb-7">
@@ -96,7 +96,7 @@ function BoardPage({ tasks, onDelete, onAdd, onMove }) {
                 )}
 
                 {/* Search and Filter Toolbar */}
-                <section className="mb-6">
+                <section className="mb-6 w-full min-w-0">
                     <FilterBar
                         searchQuery={searchQuery}
                         onSearchChange={setSearchQuery}
@@ -111,22 +111,24 @@ function BoardPage({ tasks, onDelete, onAdd, onMove }) {
                         <h2 className="text-base font-bold text-[#172B4D]">
                             Board
                         </h2>
+
                         <p className="mt-1 text-xs text-[#626F86]">
                             Manage your tasks across three workflow stages.
                         </p>
                     </div>
 
                     <p className="text-xs font-medium text-[#626F86]">
-                        {filteredTasks.length} {filteredTasks.length === 1 ? "task" : "tasks"}
+                        {filteredTasks.length}{" "}
+                        {filteredTasks.length === 1 ? "task" : "tasks"}
                     </p>
                 </div>
 
-                {/* Horizontal Kanban Board */}
+                {/* Responsive Kanban Board */}
                 <section
                     aria-label="Kanban task board"
-                    className="w-full overflow-x-auto pb-4"
+                    className="w-full min-w-0 pb-4"
                 >
-                    <div className="kanban-board grid min-w-[900px] grid-cols-3 items-start gap-4">
+                    <div className="kanban-board grid w-full min-w-0 grid-cols-1 items-start gap-4 md:grid-cols-3">
 
                         {/* To Do Column */}
                         <Column
@@ -154,6 +156,7 @@ function BoardPage({ tasks, onDelete, onAdd, onMove }) {
 
                     </div>
                 </section>
+
             </div>
         </main>
     );
